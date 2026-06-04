@@ -18,3 +18,9 @@ print(df.isnull().sum())
 
 print("\nClass distribution:")
 print(df["Class"].value_counts())
+
+X = df.drop("Class", axis=1)
+y = df["Class"]
+
+print(X.shape)
+print(y.shape)
