@@ -4,6 +4,7 @@ import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
 
 df = pd.read_csv("data/creditcard.csv")
 
@@ -40,3 +41,9 @@ print(X_test.shape)
 model = LogisticRegression(max_iter=1000)
 model.fit(X_train_scaled, y_train)
 y_prediction = model.predict(X_test_scaled)
+
+accuracy = accuracy_score(y_test, y_prediction)
+
+print("Accuracy: ", accuracy)
+print(classification_report(y_test, y_prediction))
+print(confusion_matrix(y_test, y_prediction))
