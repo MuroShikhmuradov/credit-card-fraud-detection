@@ -41,12 +41,18 @@ print(X_test.shape)
 
 model = LogisticRegression(max_iter=1000)
 rf_model = RandomForestClassifier(
-    n_estimators=100,
+    n_estimators=10,
     random_state=1918
 )
 
 rf_model.fit(X_train, y_train)
-rf_predict = rf_model.predict(X_test_scaled)
+rf_predict = rf_model.predict(X_test)
+
+rf_accuracy = accuracy_score(y_test, rf_predict)
+
+print("Accuracy: ", rf_accuracy)
+print(classification_report(y_test, rf_predict))
+print(confusion_matrix(y_test, rf_predict))
 
 model.fit(X_train_scaled, y_train)
 y_prediction = model.predict(X_test_scaled)
