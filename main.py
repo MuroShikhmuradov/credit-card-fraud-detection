@@ -6,6 +6,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
+from xgboost import XGBClassifier
 
 df = pd.read_csv("data/creditcard.csv")
 
@@ -50,7 +51,7 @@ rf_predict = rf_model.predict(X_test)
 
 rf_accuracy = accuracy_score(y_test, rf_predict)
 
-print("Accuracy: ", rf_accuracy)
+print("Accuracy RF: ", rf_accuracy)
 print(classification_report(y_test, rf_predict))
 print(confusion_matrix(y_test, rf_predict))
 
@@ -59,9 +60,27 @@ y_prediction = model.predict(X_test_scaled)
 
 accuracy = accuracy_score(y_test, y_prediction)
 
-print("Accuracy: ", accuracy)
+print("Accuracy LR: ", accuracy)
 print(classification_report(y_test, y_prediction))
 print(confusion_matrix(y_test, y_prediction))
+
+xgb_model = XGBClassifier(
+    n_estimators=10,
+    max_depth=4,
+    learning_rate=0.1,
+    eval_metric="logloss",
+    random_state=1918
+)
+
+xgb_model.fit(X_train, y_train)
+xgb_predict = xgb_model.predict(X_test)
+
+xgb_accuracy = accuracy_score(y_test, xgb_predict)
+
+print("Accuracy XGB: ", xgb_accuracy)
+print(classification_report(y_test, xgb_predict))
+print(confusion_matrix(y_test, xgb_predict))
+
 
 importance = pd.DataFrame({
     "Feature" : X.columns,
@@ -84,5 +103,6 @@ plt.savefig("outputs/feature_importance.png")
 joblib.dump(rf_model, "models/rf_model.pkl")
 joblib.dump(model, "models/lr_model.pkl")
 joblib.dump(scaler, "models/scaler.pkl")
+joblib.dump(xgb_model, "models/xgb_model.pkl")
 
 print("Model saved")
