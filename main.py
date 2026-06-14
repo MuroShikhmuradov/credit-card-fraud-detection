@@ -80,3 +80,9 @@ plt.xlabel("Feature")
 plt.ylabel("Importance")
 
 plt.savefig("outputs/feature_importance.png")
+
+joblib.dump(rf_model, "models/rf_model.pkl")
+joblib.dump(model, "models/lr_model.pkl")
+joblib.dump(scaler, "models/scaler.pkl")
+
+print("Model saved")
