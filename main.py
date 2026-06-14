@@ -1,4 +1,4 @@
-import matplotlib
+import matplotlib.pyplot as plt
 import pandas as pd
 import joblib
 from sklearn.model_selection import train_test_split
@@ -62,3 +62,21 @@ accuracy = accuracy_score(y_test, y_prediction)
 print("Accuracy: ", accuracy)
 print(classification_report(y_test, y_prediction))
 print(confusion_matrix(y_test, y_prediction))
+
+importance = pd.DataFrame({
+    "Feature" : X.columns,
+    "Importance" : rf_model.feature_importances_,
+})
+
+importance = importance.sort_values("Importance", ascending=False)
+
+top10 = importance.head(10)
+
+plt.figure(figsize=(10, 5))
+plt.bar(top10["Feature"], top10["Importance"])
+
+plt.title("Feature Importance")
+plt.xlabel("Feature")
+plt.ylabel("Importance")
+
+plt.savefig("outputs/feature_importance.png")
