@@ -3,6 +3,7 @@ import pandas as pd
 import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
 
@@ -39,6 +40,14 @@ print(X_train.shape)
 print(X_test.shape)
 
 model = LogisticRegression(max_iter=1000)
+rf_model = RandomForestClassifier(
+    n_estimators=100,
+    random_state=1918
+)
+
+rf_model.fit(X_train, y_train)
+rf_predict = rf_model.predict(X_test_scaled)
+
 model.fit(X_train_scaled, y_train)
 y_prediction = model.predict(X_test_scaled)
 
